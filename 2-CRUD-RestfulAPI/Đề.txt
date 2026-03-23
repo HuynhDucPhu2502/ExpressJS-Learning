@@ -1,0 +1,10 @@
+Product = {
+    id: string,
+    name: string,
+    price: number,
+    image: string,
+}
+
+> Làm CRUD Restful API
+> Làm CRUD MVC
+> Kiểm tra có điều kiện
