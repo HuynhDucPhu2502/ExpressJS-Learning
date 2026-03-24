@@ -1,0 +1,15 @@
+<h1><%= product ? "Cập nhật sản phẩm" : "Thêm mới sản phẩm" %></h1>
+<a href="/">Quay lại</a>
+
+<form style="display: flex; flex-direction: column; gap:20px; margin-top:1rem" action="/products<%= product ? "/" + product.id : ""  %>" method="POST" enctype="multipart/form-data">
+<input type="text" name="name" placeholder="Tên sản phẩm" value="<%= product?.name || "" %>">
+<input type="number" name="price" placeholder="Giá sản phẩm" value="<%= product?.price || "" %>">
+
+<% if (product?.image) { %>
+    <img src="<%= product.image %>" alt="" width="100px">
+<% } %>
+
+<input type="file" name="image">
+
+<button type="submit">Lưu</button>
+</form> 

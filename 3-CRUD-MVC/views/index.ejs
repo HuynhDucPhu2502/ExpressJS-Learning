@@ -1,0 +1,30 @@
+<h1>Danh sách sản phẩm</h1>
+<a href="/form">Thêm sản phẩm</a>
+
+<table border="1" width="80%" style="margin: 1rem auto; text-align: center;">
+  <tr>
+    <td>Id</td>
+    <td>Name</td>
+    <td>Price</td>
+    <td>Image</td>
+    <td>Actions</td>
+  </tr>
+  <% products.forEach(p => { %>
+    <tr>
+        <td><%= p.id %></td>
+        <td><%= p.name %></td>
+        <td><%= p.price %></td>
+        <td>
+            <img src=<%= p.image %> alt="" width="60">
+        </td>
+        <td>
+          <div style="display: flex; justify-content: center; gap: 1rem">
+            <a href="/form/<%= p.id %>">Sửa</a> |
+            <form action="/products/delete/<%= p.id %>" method="post">
+              <button type="submit">Xóa</button>
+            </form>
+          </div>
+        </td>
+    </tr>
+  <% }) %>
+</table>
