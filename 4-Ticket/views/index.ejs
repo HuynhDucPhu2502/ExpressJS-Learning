@@ -1,6 +1,22 @@
 <h1>Danh sách vé</h1>
 <a href="/form">Tạo vé mới</a>
 
+<form action="/" method="get">
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+        <input type="text" name="nameQuery" placeholder="Nhập eventName hoặc holderName">
+
+        <select name="statusQuery">
+            <option value="All">All</option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Sold">Sold</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <button type="submit">Tìm kiếm</button>
+    </div>
+</form>
+
+
 <table border="1" width="80%" style="margin: 1rem auto">
   <tr>
     <td>ticketId</td>
@@ -12,6 +28,9 @@
     <td>eventDate</td>
     <td>status</td>
     <td>imageUrl</td>
+    <td>totalAmount</td>
+    <td>finalAmount</td>
+    <td>isDicount</td>
     <td>Actions</td>
   </tr>
   <% tickets.forEach(t => { %>
@@ -27,6 +46,9 @@
         <td>
             <img src="<%= t.imageUrl %>" width="80" alt="">
         </td>
+        <td><%= t.totalAmount %></td>
+        <td><%= t.finalAmount %></td>
+        <td><%= t.isDicount ? "Được giảm giá" : "Không giảm giá" %></td>
         <td>
             <div style="display: flex; justify-content: center; gap: 1rem">
                 <a href="/form/<%= t.ticketId %>">Sửa</a>

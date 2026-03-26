@@ -10,8 +10,43 @@ const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const TableName = "EventTickets";
 const Bucket = "bucket-cua-phu-34";
 
-const getAllTickets = async () => {
-  const data = await dynamoDbClient.send(new ScanCommand({ TableName }));
+const getAllTickets = async (nameQuery, statusQuery) => {
+  const params = { TableName };
+  const conditions = [];
+  const values = {};
+
+  if (nameQuery) {
+    conditions.push(
+      "(contains(eventName, :nameQuery) OR contains(holderName, :nameQuery))",
+    );
+    values[":nameQuery"] = nameQuery;
+  }
+
+  if (statusQuery && statusQuery !== "All") {
+    conditions.push("#st = :statusQuery");
+    values[":statusQuery"] = statusQuery;
+
+    // Java có từ đặc biệt là Class, ...
+    // SQL Server SELECT, FROM
+    params.ExpressionAttributeNames = { "#st": "status" };
+  }
+
+  if (conditions.length > 0) {
+    params.FilterExpression = conditions.join(" AND ");
+    params.ExpressionAttributeValues = values;
+  }
+
+  const data = await dynamoDbClient.send(new ScanCommand(params));
+  // const data = await dynamoDbClient.send(
+  //   new ScanCommand({
+  //     TableName,
+  //     FilterExpression,
+  //     ExpressionAttributeValues,
+
+  //     ExpressionAttributeNames,
+
+  //   }),
+  // );
   return data.Items || [];
 };
 
@@ -89,6 +124,19 @@ const upsertTicket = async (ticketId, body, file) => {
   }
 
   // 4 Làm việc với Dynamodb
+  ticketData.totalAmount = ticketData.quantity * ticketData.pricePerTicket;
+
+  if (ticketData.category === "VIP" && ticketData.quantity > 4) {
+    ticketData.finalAmount = ticketData.totalAmount * 0.9;
+    ticketData.isDicount = true;
+  } else if (ticketData.category === "VVIP " && ticketData.quantity > 2) {
+    ticketData.finalAmount = ticketData.totalAmount * 0.85;
+    ticketData.isDicount = true;
+  } else {
+    ticketData.finalAmount = ticketData.totalAmount;
+    ticketData.isDicount = false;
+  }
+
   await dynamoDbClient.send(
     new PutCommand({
       TableName,

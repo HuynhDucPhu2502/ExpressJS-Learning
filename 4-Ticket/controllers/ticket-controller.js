@@ -6,7 +6,9 @@ const {
 } = require("../services/ticket-service");
 
 const handleRenderIndex = async (req, res) => {
-  const tickets = await getAllTickets();
+  const { nameQuery, statusQuery } = req.query;
+
+  const tickets = await getAllTickets(nameQuery, statusQuery);
   res.render("index", { tickets });
 };
 
@@ -18,9 +20,15 @@ const handleRenderForm = async (req, res) => {
 
 const handleUpsert = async (req, res) => {
   const { ticketId } = req.params;
-
-  await upsertTicket(ticketId, req.body, req.file);
-  res.redirect("/");
+  try {
+    await upsertTicket(ticketId, req.body, req.file);
+    res.redirect("/");
+  } catch (err) {
+    res.render("form", {
+      ticket: { ticketId, ...req.body },
+      error: err.message,
+    });
+  }
 };
 
 const handleDelete = async (req, res) => {
