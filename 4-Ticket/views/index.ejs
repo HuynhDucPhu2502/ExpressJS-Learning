@@ -1,0 +1,41 @@
+<h1>Danh sách vé</h1>
+<a href="/form">Tạo vé mới</a>
+
+<table border="1" width="80%" style="margin: 1rem auto">
+  <tr>
+    <td>ticketId</td>
+    <td>eventName</td>
+    <td>holderName</td>
+    <td>category</td>
+    <td>quantity</td>
+    <td>pricePerTicket</td>
+    <td>eventDate</td>
+    <td>status</td>
+    <td>imageUrl</td>
+    <td>Actions</td>
+  </tr>
+  <% tickets.forEach(t => { %>
+    <tr>
+        <td><%= t.ticketId %></td>
+        <td><%= t.eventName %></td>
+        <td><%= t.holderName %></td>
+        <td><%= t.category %></td>
+        <td><%= t.quantity %></td>
+        <td><%= t.pricePerTicket %></td>
+        <td><%= t.eventDate %></td>
+        <td><%= t.status %></td>
+        <td>
+            <img src="<%= t.imageUrl %>" width="80" alt="">
+        </td>
+        <td>
+            <div style="display: flex; justify-content: center; gap: 1rem">
+                <a href="/form/<%= t.ticketId %>">Sửa</a>
+                |
+                <form action="/tickets/delete/<%= t.ticketId %>" method="POST">
+                    <button type="submit">Xóa</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+  <% }) %>
+</table>

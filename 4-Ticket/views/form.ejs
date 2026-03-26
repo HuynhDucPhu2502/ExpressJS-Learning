@@ -1,0 +1,42 @@
+<h1>Tạo vé mới</h1>
+<a href="/">Quay lại</a>
+
+<form action="/tickets/upsert<%= ticket ? `/${ticket.ticketId}` : "" %>" method="POST" enctype="multipart/form-data">
+
+    <div style="display: flex; flex-direction: column; gap: 10px; margin: 1rem;">
+        <input type="text" name="eventName" placeholder="eventName" value="<%= ticket?.eventName %>">
+        <input type="text" name="holderName" placeholder="holderName" value="<%= ticket?.holderName %>">
+
+        <div>
+            <label>category</label>
+            <select name="category">
+                <option value="Standard" <%= ticket?.status === 'Standard' ? "selected" : "" %>>Standard</option>
+                <option value="VIP" <%= ticket?.status === 'VIP' ? "selected" : "" %>>VIP</option>
+                <option value="VVIP" <%= ticket?.status === 'VVIP' ? "selected" : "" %>>VVIP</option>
+            </select>
+        </div>
+
+        <input type="number" name="quantity" placeholder="quantity" value="<%= ticket?.quantity %>">
+        <input type="number" name="pricePerTicket" placeholder="pricePerTicket" value="<%= ticket?.pricePerTicket %>">
+
+        <input type="date" name="eventDate" placeholder="eventDate" value="<%= ticket?.eventDate %>">
+
+        <div>
+            <label>status</label>
+            <select name="status">
+                <option value="Upcoming" <%= ticket?.status === 'Upcoming' ? "selected" : "" %>>Upcoming</option>
+                <option value="Sold" <%= ticket?.status === 'Sold' ? "selected" : "" %>>Sold</option>
+                <option value="Cancelled" <%= ticket?.status === 'Cancelled' ? "selected" : "" %>>Cancelled</option>
+            </select>
+        </div>
+
+        <input type="file" name="imageUrl">
+
+        <button type="submit">Lưu</button>
+    </div>
+
+</form>
+
+<% if (typeof error !== "undefined" && error) { %>
+    <p><%= error %></p>
+<% } %>
