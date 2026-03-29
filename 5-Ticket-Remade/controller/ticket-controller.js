@@ -6,7 +6,8 @@ const {
 } = require("../service/ticket-service");
 
 const handleRenderIndex = async (req, res) => {
-  const data = await getAllTickets();
+  const { nameQuery, statusQuery } = req.query;
+  const data = await getAllTickets(nameQuery, statusQuery);
   res.render("index", { tickets: data });
 };
 const handleRenderForm = async (req, res) => {

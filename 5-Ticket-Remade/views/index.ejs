@@ -1,6 +1,22 @@
 <h1>Danh sách vé</h1>
 <a href="/form">Tạo vé mới</a>
 
+<form action="/" method="get" >
+    <div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem; border: 3px solid black; border-radius: 1rem; width: 80%; margin: 1rem auto;">
+        <input type="text" name="nameQuery" placeholder="Tìm theo tên sự kiện hoặc người giữ vé" />
+        <div>
+            <label>status</label>
+            <select name="statusQuery">
+                <option value="all">All</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Sold">Sold</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+        <button type="submit">Tìm kiếm</button>
+    </div>
+</form>
+
 <table border="1" width="80%" style="text-align: center; margin: 1rem auto">
   <tr>
     <td>ticketId</td>

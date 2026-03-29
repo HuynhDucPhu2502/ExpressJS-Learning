@@ -6,12 +6,36 @@ const {
   PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { name } = require("ejs");
 
 const Bucket = "bucket-cua-phu-34";
 const TableName = "EventTickets";
 
-const getAllTickets = async () => {
-  const data = await dynamodbClient.send(new ScanCommand({ TableName }));
+const getAllTickets = async (nameQuery, statusQuery) => {
+  const params = { TableName };
+
+  const values = {};
+  const conditions = [];
+
+  if (nameQuery) {
+    conditions.push(
+      "(contains(eventName, :nameQuery) OR contains(holderName, :nameQuery))",
+    );
+    values[":nameQuery"] = nameQuery;
+  }
+
+  if (statusQuery && statusQuery !== "all") {
+    conditions.push("(contains(#st, :statusQuery))");
+    values[":statusQuery"] = statusQuery;
+    params.ExpressionAttributeNames = { "#st": "status" };
+  }
+
+  if (conditions.length > 0) {
+    params.FilterExpression = conditions.join(" AND ");
+    params.ExpressionAttributeValues = values;
+  }
+
+  const data = await dynamodbClient.send(new ScanCommand(params));
   return data.Items || [];
 };
 
