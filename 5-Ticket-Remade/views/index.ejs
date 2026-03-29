@@ -1,0 +1,50 @@
+<h1>Danh sách vé</h1>
+<a href="/form">Tạo vé mới</a>
+
+<table border="1" width="80%" style="text-align: center; margin: 1rem auto">
+  <tr>
+    <td>ticketId</td>
+    <td>eventName</td>
+    <td>holderName</td>
+    <td>category</td>
+    <td>quantity</td>
+    <td>pricePerTicket</td>
+    <td>eventDate</td>
+    <td>status</td>
+    <td>imageUrl</td>
+    <td>totalAmount</td>
+    <td>finalAmount</td>
+    <td>discount</td>
+    <td>actions</td>
+  </tr>
+  <% tickets.forEach(t => { %>
+    <tr>
+        <td><%= t.ticketId %></td>
+        <td><%= t.eventName %></td>
+        <td><%= t.holderName %></td>
+        <td><%= t.category %></td>
+        <td><%= t.quantity %></td>
+        <td><%= t.pricePerTicket %></td>
+        <td><%= t.eventDate %></td>
+        <td><%= t.status %></td>
+        <td>
+            <img src="<%= t.imageUrl %>" alt="" width="80">
+        </td>
+        <td><%= t.totalAmount %></td>
+        <td><%= t.finalAmount %></td>
+        <td><%= t.discount %></td>
+        <td>
+            <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
+                <a href="/form/<%= t.ticketId %>">Sửa</a>
+                <form action="/tickets/delete/<%= t.ticketId %>" method="POST" style="display: inline;">
+                    <button 
+                    type="submit" 
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa vé này?')">
+                        Xóa
+                    </button>
+                </form>
+            </div>
+        </td>
+    </tr>
+  <% }) %>
+</table>
