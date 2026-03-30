@@ -6,7 +6,6 @@ const {
   PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { name } = require("ejs");
 
 const Bucket = "bucket-cua-phu-34";
 const TableName = "EventTickets";
