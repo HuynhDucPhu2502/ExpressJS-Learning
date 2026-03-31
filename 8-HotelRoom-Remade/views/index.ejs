@@ -1,0 +1,67 @@
+<h1>Danh sách phòng</h1>
+<a href="/form">Tạo phòng mới</a>
+
+<form action="/" method="get">
+    <div style="width: 80%; margin: 1rem auto; padding: 1rem; border: 3px solid black; display: flex; flex-direction: column; gap: 1rem">
+        <div>
+            <label>nameQuery</label>
+            <input type="text" name="nameQuery">
+        </div>
+
+        <div>
+            <label>roomType OR status</label>
+            <select name="statusQuery">
+                <option value="All">All</option>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Suite">Suite</option>
+                <option value="Available" >Available</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Maintenance">Maintenance</option>
+            </select>
+        </div>
+
+        <button type="submit">Search</button>
+
+    </div>
+</form>
+
+<p>Standard: <%= roomLength.Standard ?? 0 %></p>
+<p>Deluxe: <%= roomLength.Deluxe ?? 0 %></p>
+<p>Suite: <%= roomLength.Suite ?? 0 %></p>
+
+<table width="80%" border="1" style="text-align: center; margin: 1rem auto">
+  <tr>
+    <td>roomId</td>
+    <td>roomName</td>
+    <td>roomType</td>
+    <td>pricePerNight</td>
+    <td>capacity</td>
+    <td>status</td>
+    <td>image</td>
+    <td>actions</td>
+  </tr>
+  <% rooms.forEach(r => { %>
+    <tr>
+        <td><%= r.roomId %></td>
+        <td><%= r.roomName %></td>
+        <td><%= r.roomType %></td>
+        <td><%= r.pricePerNight %></td>
+        <td><%= r.capacity %></td>
+        <td><%= r.status %></td>
+        <td><img src="<%= r.imageUrl %>" width="80"></td>
+        <td>
+            <div style="display: flex; justify-content: center; gap: 1rem">
+                <a href="/form/<%= r.roomId  %>">
+                    <button>Update</button>
+                </a>
+
+                <form action="/rooms/delete/<%= r.roomId %>" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+  <% }) %>
+</table>
+

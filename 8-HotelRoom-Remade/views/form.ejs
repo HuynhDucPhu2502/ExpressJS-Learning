@@ -1,0 +1,52 @@
+<h1>Tạo phòng mới</h1>
+<a href="/">Quay lại</a>
+
+<form enctype="multipart/form-data" action="/rooms/upsert<%= room ? `/${room.roomId}` : "" %>" method="post">
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1rem auto;">
+
+        <div>
+            <label>roomName</label>
+            <input type="text" name="roomName" value="<%= room?.roomName %>">
+        </div>
+
+        <div>
+            <label>roomType</label>
+            <select name="roomType">
+                <option value="Standard" <%= room?.roomType ? "selected" : ""  %>>Standard</option>
+                <option value="Deluxe" <%= room?.roomType ? "selected" : ""  %>>Deluxe</option>
+                <option value="Suite" <%= room?.roomType ? "selected" : ""  %>>Suite</option>
+            </select>
+        </div>
+
+
+        <div>
+            <label>pricePerNight</label>
+            <input type="number" name="pricePerNight" value="<%= room?.pricePerNight %>">
+        </div>
+
+        <div>
+            <label>capacity</label>
+            <input type="number" name="capacity" value="<%= room?.capacity %>">
+        </div>
+
+        <div>
+            <label>status</label>
+            <select name="status">
+                <option value="Available" <%= room?.status ? "selected" : ""  %>>Available</option>
+                <option value="Occupied" <%= room?.status ? "selected" : ""  %>>Occupied</option>
+                <option value="Maintenance" <%= room?.status ? "selected" : ""  %>>Maintenance</option>
+            </select>
+        </div>
+
+        <div>
+            <label>image</label>
+            <input type="file" name="image">
+        </div>
+
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+<% if (typeof error !== "undefined" && error) { %>
+    <p><%= error %></p>
+<% } %>
