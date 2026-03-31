@@ -1,0 +1,71 @@
+<h1>Danh sách phòng</h1>
+<a href="/form">Tạo phòng mới</a>
+
+<form action="/" method="get">
+    <div>
+        <Label>roomName</Label>
+        <input type="text" name="nameQuery">
+    </div>
+
+    <div>
+        <Label>roomType or status</Label>
+        <select name="statusQuery">
+            <option value="All" >All</option>
+            <option value="Standard" >Standard</option>
+            <option value="Deluxe" >Deluxe</option>
+            <option value="Suite" >Suite</option>
+            <option value="Available" >Available</option>
+            <option value="Occupied" >Occupied</option>
+            <option value="Maintenance" >Maintenance</option>
+        </select>
+    </div>
+
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<p><%= roomLengths.Standard %> phòng Standard</p>
+<p><%= roomLengths.Deluxe %> phòng Deluxe</p>
+<p><%= roomLengths.Suite %> phòng Suite</p>
+
+<table style="margin: 1rem auto; text-align: center;" border="1" width="80%">
+  <tr>
+    <td>roomId</td>
+    <td>roomName</td>
+    <td>roomType</td>
+    <td>pricePerNight</td>
+    <td>capacity</td>
+    <td>status</td>
+    <td>imageUrl</td>
+    <td>actions</td>
+    <td>giả định</td>
+  </tr>
+  <% rooms.forEach(r => { %>
+    <tr>
+        <td><%= r.roomId %></td>
+        <td><%= r.roomName %></td>
+        <td><%= r.roomType %></td>
+        <td><%= r.pricePerNight %></td>
+        <td><%= r.capacity %></td>
+        <td>
+            <span style="padding: 4px 8px; border-radius: 4px; font-weight: bold; color: white; background-color: <%= r.status === 'Available' ? 'green' : r.status === 'Occupied' ? 'red' : 'orange' %>;">
+                <%= r.status %>
+            </span>
+        </td>
+        <td>
+            <img src="<%= r.imageUrl %>" width="80">
+        </td>
+        <td>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="/form/<%= r.roomId %>">
+                    <button>Sửa</button>
+                </a>
+                <form action="/rooms/delete/<%= r.roomId %>" method="get">
+                    <button type="submit">Xóa</button>
+                </form>
+            </div>
+        </td>
+        <td><%= r.giaDinh %></td>
+    </tr>
+  <% }) %>
+</table>
+

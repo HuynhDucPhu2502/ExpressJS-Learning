@@ -1,0 +1,52 @@
+<h1>Biểu mẫu phòng</h1>
+<a href="/">Quay lại</a>
+
+<form action="/rooms/upsert<%= room ? `/${room.roomId}` : "" %>" method="post" enctype="multipart/form-data">
+    
+    <div>
+        <Label>roomName</Label>
+        <input type="text" name="roomName" value="<%= room?.roomName %>">
+    </div>
+
+    <div>
+        <Label>roomType</Label>
+        <select name="roomType">
+            <option value="Standard" <%= room?.roomType === "Standard" ? "selected" : "" %>>Standard</option>
+            <option value="Deluxe" <%= room?.roomType === "Deluxe" ? "selected" : "" %>>Deluxe</option>
+            <option value="Suite" <%= room?.roomType === "Suite" ? "selected" : "" %>>Suite</option>
+        </select>
+    </div>
+
+    <div>
+        <Label>pricePerNight</Label>
+        <input type="number" name="pricePerNight" value="<%= room?.pricePerNight %>">
+    </div>
+
+    <div>
+        <Label>capacity</Label>
+        <input type="number" name="capacity" value="<%= room?.capacity %>">
+    </div>
+
+    <div>
+        <Label>status</Label>
+        <select name="status">
+            <option value="Available" <%= room?.status === "Available" ? "selected" : "" %>>Available</option>
+            <option value="Occupied" <%= room?.status === "Occupied" ? "selected" : "" %>>Occupied</option>
+            <option value="Maintenance" <%= room?.status === "Maintenance" ? "selected" : "" %>>Maintenance</option>
+        </select>
+    </div>
+
+    <div>
+        <Label>image</Label>
+        <input type="file" name="image">
+    </div>
+
+    <button type="submit">Save</button>
+
+    
+</form>
+
+
+<% if (typeof error !== "undefined" && error) { %>
+    <p><%= error %></p>
+<% } %>
