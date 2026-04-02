@@ -1,0 +1,64 @@
+<h1>Danh sách lịch hẹn</h1>
+<a href="/appointments/form">Tạo lịch hẹn</a>
+
+<div style="border: 3px solid black; padding: 1rem; margin: 1rem;">
+    <form action="/appointments" method="get">
+        <div>
+            <label>patientName OR doctorName</label>
+            <input type="text" name="nameQuery">
+        </div>
+
+        <div>
+            <label>speciality OR status</label>
+            <input type="text" name="statusQuery">
+        </div>
+
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div>
+    <p>Pending: <%= thongKe.Pending ?? 0 %></p>
+    <p>Confirmed: <%= thongKe.Confirmed ?? 0 %></p>
+    <p>Done: <%= thongKe.Done ?? 0 %></p>
+    <p>Cancelled: <%= thongKe.Cancelled ?? 0 %></p>
+    <p>Tong: <%= thongKe.Tong ?? 0 %></p>
+</div>
+
+<table border="1" width="80%" style="text-align: center; margin: 1rem auto">
+    <tr>
+        <td>appointmentId</td>
+        <td>patientName</td>
+        <td>doctorName</td>
+        <td>specialty</td>
+        <td>appointmentDate</td>
+        <td>fee</td>
+        <td>status</td>
+        <td>noteImageUrl</td>
+        <td>actions</td>
+    </tr>
+    <% appointments.forEach(a => { %>
+        <tr>
+            <td><%= a.appointmentId %></td>
+            <td><%= a.patientName %></td>
+            <td><%= a.doctorName %></td>
+            <td><%= a.specialty %></td>
+            <td><%= a.appointmentDate %></td>
+            <td><%= a.fee %></td>
+            <td><%= a.status %></td>
+            <td>
+                <img src="<%= a.noteImageUrl %>" width="80">
+            </td>
+            <td>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="/appointments/form/<%= a.appointmentId %>">
+                        <button>Update</button>
+                    </a>
+                    <form action="/appointments/delete/<%= a.appointmentId %>" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    <% }) %>
+</table>
